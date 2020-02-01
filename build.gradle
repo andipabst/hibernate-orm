@@ -25,6 +25,8 @@ buildscript {
 plugins {
 	id 'com.gradle.build-scan' version '1.16'
 	id 'me.champeau.buildscan-recipes' version '0.2.3'
+	id 'pmd'
+	id 'jacoco'
 }
 
 allprojects {
@@ -44,6 +46,13 @@ allprojects {
 	buildDir = "target"
 
 	apply from: rootProject.file( 'gradle/base-information.gradle' )
+
+	gradle.projectsEvaluated {
+		tasks.withType(JavaCompile) {
+			options.compilerArgs << "-Xlint:all"
+		}
+	}
+	apply from: rootProject.file('gradle/pmd.gradle')
 }
 
 
@@ -109,6 +118,18 @@ buildScanRecipes {
 //        name = "hibernate-orm"
 //    }
 //}
+clean {
+	delete "cp.txt"
+}
 
+gradle.projectsEvaluated {
+	subprojects {
+		task printcp {
+			if (configurations.hasProperty('runtime')) {
+				new File(rootDir, "cp.txt").append(':' + configurations.runtime.resolve().join(':'))
+			}
+		}
+	}
+}
 
 

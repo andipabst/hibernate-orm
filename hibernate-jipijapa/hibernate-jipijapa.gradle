@@ -21,4 +21,5 @@ dependencies {
 
 test {
     forkEvery 1
+    ignoreFailures = true
 }

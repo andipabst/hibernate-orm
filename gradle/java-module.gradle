@@ -27,6 +27,7 @@ apply from: rootProject.file( 'gradle/databases.gradle' )
 
 apply plugin: 'java'
 apply plugin: 'osgi'
+apply from: rootProject.file('gradle/jacoco.gradle')
 
 apply plugin: 'checkstyle'
 apply plugin: 'build-dashboard'
@@ -212,6 +213,7 @@ test {
 			systemProperty 'net.bytebuddy.experimental', true
 		}
 	}
+	ignoreFailures = true
 }
 
 test {
@@ -222,6 +224,7 @@ test {
 			events "passed", "skipped", "failed"
 		}
 	}
+	ignoreFailures = true
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
